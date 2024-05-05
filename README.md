@@ -248,4 +248,24 @@ Even JAX feels slow at this point.
 
 Feel free to open issues for; issues, ideas or recommendations.
 
+### Conversation Block Files and Their Generation
+
+"conversation_block.py" file has required implementations to generate attack and defense blocks,
+read from saved block files; given the WhatsApp chat file. This file is all about preprocessing.
+Preprocessing in the purpose of above discussed methods. 
+
+#### File Format
+
+Conversation blocks are saved as ".block" files, which has a custom format. This file format
+hosts conversation blocks as separate entities in it. Blocks are individually compressed via 
+zip. Compressed blocks are separated by a predefined delimiter. 2 consecutive delimiters mean
+EOF. This 2 consecutive delimiters is the only thing explicitly checked when reading from a 
+.block file. 
+
+Encoding is UTF-8 by default. You can change it manually by doing a replace command on the
+Python file. 
+
+There is no differentiation between attack and defense methods in this file format. Both are
+treated the same.
+
 

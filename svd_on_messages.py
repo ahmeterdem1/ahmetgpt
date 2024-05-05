@@ -264,5 +264,5 @@ if __name__ == "__main__":
     # Decomment below function, put in the found index. It will show you
     # the messages at ±10 position of the found message.
 
-    #peek_at_index("./whatsapp data/Batuhan/Batuhan bulk.txt", 5841)
+    #peek_at_index("WHATSAPPCHAT bulk.txt", 5841)
 
