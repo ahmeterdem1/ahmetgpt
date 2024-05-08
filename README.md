@@ -268,4 +268,41 @@ Python file.
 There is no differentiation between attack and defense methods in this file format. Both are
 treated the same.
 
+### Persona Investigation
 
+"persona_generation.py"
+
+This is a side project that is completely unrelated to the main idea of AhmetGPT. The aim
+of this little project is to classify people. Based on their personality, aka, writing
+style. Writing style probably is correlated with the personality.
+
+I propose that, each human has a different distribution of tokens that they use when they
+are talking. This distribution, is like a fingerprint. It uniquely separates us and is a
+representation of our personality. It does not perfectly represent the personality, 
+because a simple token distribution does not have enough information to encode for example,
+specific recurrent orders of tokens.
+
+However, a simple separation is possible. Our method of action is similar to LSI. We collect
+messages for each person, and then vectorize each message with a tokenizer of choice. In my
+example, this time, I have used byte pair tokenizer from ```tokenizers``` library. 
+
+I have collected tokens only from a single WhatsApp chat. This is to save time. It is not 
+a perfect action to take as different people tend to use different combinations of characters
+during for example, keysmashing. Keysmasing as an example is very important because it is
+one of the most fingerprinting linguistic signals a person gives. It would be better to not
+miss it, but even the minimalistic tokenizing technique I use generates around 30000 tokens.
+
+After tokenizing each message from each person, we basically sum up all the vectors of each
+person. We generate a "distribution vector" of each person. Taking the norm of this vector
+would be better for any further application.
+
+The angle between 2 persons distribution vector, gives us the personality proximity index.
+The smaller the angle, the more similar the personalities. 
+
+In my example, statistically good enough examples generates outwards spirals when mapped to
+2D space. I don't know the reason, if you have any idea, feel free to reach out.
+
+### Further Projects
+
+Above persona vectors, when put in a matrix as rows, generates an "image". This image will
+be used to classify messages as "written by person x". Wait for updates!
