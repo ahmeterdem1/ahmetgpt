@@ -302,7 +302,47 @@ The smaller the angle, the more similar the personalities.
 In my example, statistically good enough examples generates outwards spirals when mapped to
 2D space. I don't know the reason, if you have any idea, feel free to reach out.
 
-### Further Projects
+### Persona Classification/Text Classification
 
-Above persona vectors, when put in a matrix as rows, generates an "image". This image will
-be used to classify messages as "written by person x". Wait for updates!
+"persona_classification.py"
+
+Here is a basic example of text classification by personas. The idea is to create a black box,
+which can be an AI model but doesn't need to be one, which would tell us the person that is
+most likely to have written a message input that is fed to the box. A text classifier based
+on some set of personas.
+
+Personas are defined by their word usage frequency vectors, explained in the above section.
+The distribution vectors of each person can be used for text classification.
+
+A naive idea would be a similar approach to K-Means on the given message-set. We have the
+distribution vectors of each persona. Given a message, we can vectorize the message, then
+measure the angles between the input message and persona distribution vector for each person.
+Basically the cosine similarity. The highest cosine similarity will be picked as the output
+of this model. 
+
+Applying K-Means on the given message-set is another approach. But in our example, we already
+have the class assignments for each message. We already know the output of a hypothetical
+K-Means application. This approach would be, however, obviously useful when we don't know the
+persona classes.
+
+Here is a supervised learning approach. The persona matrix, is a (person_count, vocab_size) 
+matrix of distribution vectors as rows. Let's say we have a message input as a vector. When
+we multiply this matrix with the vector, we get a (person_count,) vector. Value at each index
+of this vector, is the result of the scalar multiplication of the input vector and the same
+indexed personas distribution vector. This is directly related to the cosine similarity of
+those vectors. We can then utilize any kind of model to process this data and generate a 
+text classifier.
+
+In the example given here, a model with an LSTM layer is created. At each epoch, messages
+from persona message files are selected, multiplied with the "kernel", and then fed to the
+model in a randomized order. Message per person is tried to be kept the same across all
+people as doing otherwise would create a data unbalance.
+
+This model, takes 10 consecutive messages at each run. Doing so creates an environment
+such that the model also learns the orders that messages come from a given person. We
+have 47 features, but the order of the messages is also a "hidden" feature that this
+model takes advantage of.
+
+Given the circumstances, the given model tops at ~%35 accuracy on the test data. Which
+is not perfect. But it is not a very good idea to classify peoples writing styles mainly
+just based on their writing frequency. However, the method kind of works.
