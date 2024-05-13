@@ -346,3 +346,12 @@ model takes advantage of.
 Given the circumstances, the given model tops at ~%35 accuracy on the test data. Which
 is not perfect. But it is not a very good idea to classify peoples writing styles mainly
 just based on their writing frequency. However, the method kind of works.
+
+#### A Naive Approach
+
+Thinking more about the %35 rate, I have tried a simple model-like on the persona vectors.
+This "model" simply takes n messages, sums their vectors, returns the maximum cosine similarity
+persona given the persona vectors. Surprisingly, this model gave %26 accuracy when tried
+with 50 messages consecutively. Over %50 accuracy is only reached when it has taken 
+around 1000 messages per person. This indicates that the %35 accuracy with 10 consecutive
+cosine similarity vectors are indeed very good given the extent of the data.
