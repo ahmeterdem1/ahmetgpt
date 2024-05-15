@@ -355,3 +355,27 @@ persona given the persona vectors. Surprisingly, this model gave %26 accuracy wh
 with 50 messages consecutively. Over %50 accuracy is only reached when it has taken 
 around 1000 messages per person. This indicates that the %35 accuracy with 10 consecutive
 cosine similarity vectors are indeed very good given the extent of the data.
+
+#### 2-Gram Approach
+
+"2-gram.py"
+
+Another way to look at peoples writing styles is n-gram models. Assuming people have
+distinguished linguistic patterns when messaging, we can further assume that each 
+people speak a "subset" of the general language they are speaking. This assumption
+can be checked with investigating the subset-language that a person is speaking. An
+n-gram model is suitable for this task. 
+
+Indeed, the persona vector approach was a 1-gram approach. The persona vector was 
+literally a 1-gram vector. Expanding this model would be beneficial.
+
+Here, the 2-gram example is employed. Instead of a persona vector, now we generate a
+persona matrix. Persona matrix is a square matrix of vocabulary size at each axis. 
+Then, when given a query, we can calculate the probability that this query generates
+with each subset-language with each persona matrix. The highest probability will be
+the answer of the model. 
+
+An improvement to this model would be to prepare a separate tokenizer for each person,
+and calculate their persona matrices using their own tokenizer. Each person may be
+using completely different tokens, and no unknown tokens should be used in n-gram
+models.
