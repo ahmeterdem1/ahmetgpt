@@ -268,6 +268,60 @@ Python file.
 There is no differentiation between attack and defense methods in this file format. Both are
 treated the same.
 
+### A Better Approach on Personality Investigation
+
+"persona_comparison.py"
+
+This version is an improvement to the persona investigation given below this section.
+Here, more advanced techniques are invented to compare personalities of people more
+accurately.
+
+This method uses the differences of the meanings of the words/tokens that each person
+uses. Meaning differences are collected and the gathered information is then used to
+generate a point in space for each person.
+
+When training embeddings for a given vocabulary, the idea behind is the linguistic theory
+that the meaning of each word comes from the context that it is used in. The meanings
+can and will change depending on the corpus that we give to the embedding model. 
+
+To generate comparable embeddings between different corpora, we may for example, start 
+with the same initialization meaning-context matrix and train the embedding for each
+corpora separately. In this application, different SkipGram models with the same 
+initial core matrices are trained for each person, using the [semantic space](https://github.com/ahmeterdem1/semantic-space) 
+library. And the initial vocabulary is the same for all, as it must be so.
+
+If all the words' embeddings are the same for 2 people, those 2 people must be the
+same person. Since the initial vocabulary is the same for all people, we can simply
+measure cosine similarities of each word in the vocabulary, for person x and person y.
+
+The collective cosine similarity vector, is a vector of length "vocabulary-size" where
+each place holds the cosine similarity value between the embeddings of the same word, 
+between the 2 people. Given person x and person y, if it was x=y, then this vector
+would be all ones.
+
+Using this information, we can measure the statistical difference/loss of the vector
+we have at hand and this hypothetical target of all one vector. Cross Entropy measure
+directly fits this purpose of measuring statistical difference between 2 given 
+distributions. 
+
+Cross Entropy loss between the hypothetical all ones distribution and the calculated
+cosine similarity distribution is calculated. This is just a simple negative sum of
+the log values of cosine similarity values, since the target distribution is all ones.
+The calculated loss value will naturally be between 0 and infinity.
+
+We need a projection of the loss value, to a measure index which would be between 0 and 1.
+0 means no similarity, and 1 means the same person. For when the loss is 0, measure index
+must be 1. For when the loss is infinity, measure index must be 0.
+
+A variant of sigmoid function is created for this purpose. This function is given as
+"1/(x + e<sup>-x</sup>)". This score function perfectly satisfies the required boundary
+conditions given the objective.
+
+All of the collective work given here, results in a more robust personality comparison and
+classification. And this is, at the end of the day, an inherent semantic comparison of a
+given document and a given query/document.
+
+
 ### Persona Investigation
 
 "persona_generation.py"
